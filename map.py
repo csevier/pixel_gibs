@@ -1,6 +1,10 @@
 import pygame
 from settings import PLAYER_POS
 import dungeon_gen as dg
+from random import randint
+from npc import NPC
+from sprite_object import SpriteObject, AnimatedSprite
+
 
 _ = False
 mini_map = []
@@ -83,19 +87,33 @@ class Map:
         for pos in self.world_map:
             pygame.draw.rect(self.game.screen, 'darkgray', (pos[0] * 100, pos[1] * 100, 100, 100), 2)
 
+    def add_npcs(self):
+        self.game.object_handler.add_sprite(SpriteObject(self.game))
+        self.game.object_handler.add_sprite(AnimatedSprite(self.game,scale=2))
+        for i in range(randint(4,12)):
+            # find empty space come hell or high water!
+            while True:
+                new_pos = self.d.findEmptySpace(randint(1,10))
+                if new_pos != (None, None):
+                    break
+            print(new_pos)
+            self.game.object_handler.add_npc(NPC(self.game, pos=new_pos))
+
     def generate(self):
         tileSize = 1
         levelSize = 40
-        d = dg.dungeonGenerator(levelSize, levelSize)
+        self.d = dg.dungeonGenerator(levelSize, levelSize)
         #d.placeRoom(2, 2, 4, 0)
-        d.placeRandomRooms(5, 11, 2, 4, 500)
-        d.generateCorridors()
-        d.connectAllRooms(30)
-        d.pruneDeadends(20)
-        d.placeWalls()
-        PLAYER_POS = d.findEmptySpace(1)
+        self.d.placeRandomRooms(5, 11, 2, 4, 500)
+        self.d.generateCorridors()
+        self.d.connectAllRooms(30)
+        self.d.pruneDeadends(20)
+        self.d.placeWalls()
+        PLAYER_POS = self.d.findEmptySpace(1)
         for x in range(levelSize):
             for y in range(levelSize):
                 if x == 0 or y == 0 or x == levelSize-1 or y == levelSize-1:
-                    d.grid[x][y] = dg.WALL
-        self.mini_map = d.grid
+                    self.d.grid[x][y] = dg.WALL
+
+
+        self.mini_map = self.d.grid
