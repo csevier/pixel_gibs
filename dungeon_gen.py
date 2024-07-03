@@ -264,7 +264,7 @@ class dungeonGenerator:
         """
         
         for x in range(distance, self.width - distance):
-            for y in range(distance, self.width - distance):
+            for y in range(distance, self.height - distance):
                 touching = 0
                 for xi in range(-distance, distance):
                     for yi in range(-distance, distance):
