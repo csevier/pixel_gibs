@@ -1,3 +1,4 @@
+import os
 import pygame
 from settings import *
 import numpy as np
@@ -56,19 +57,12 @@ class ObjectRenderer:
                     self.frame[i][self.halfvres*2-j-1]= [1,1,1]
 
     def load_wall_textures(self):
-        blood = "resources/textures/cata_stone_moss_blood.png"
-        blood2 = "resources/textures/cata_stone_moss_blood_light.png"
-        textures = ["resources/textures/cata_stone_dark.png", 
-                    "resources/textures/cata_stone_light.png", 
-                    "resources/textures/cata_brick_gold.png",
-                    "resources/textures/cata_brick_red.png", 
-                    "resources/textures/cata_ooz_dark.png", 
-                    "resources/textures/cata_ooz_light.png", 
-                    "resources/textures/cata_stone_grey.png", 
-                    "resources/textures/cata_stone_white.png", 
-                    "resources/textures/cata_stone_moss.png", 
-                    "resources/textures/cata_stone_moss_dark.png",
-                    ]
+        dir_path = './resources/textures'
+        # to load a specific wall texture
+        # comment the line below
+        # uncomment the following line and change to match your textures file name
+        textures = [dir_path+'/'+f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f)) and 'blood' not in f]
+        # textures = ['./resource/textures/mytesttexture.png']
         return {
             1: self.get_texture(random.choice(textures)),
             2: self.get_texture(random.choice(textures)),

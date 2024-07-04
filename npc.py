@@ -48,9 +48,8 @@ class NPC(AnimatedSprite):
 
     def animate_death(self):
         if not self.alive:
-            if self.animation_trigger and self.frame_counter < len(self.death_images) -1:
-                self.death_images.rotate(1)
-                self.image = self.death_images[0]
+            if self.animation_trigger and self.frame_counter < len(self.death_images):
+                self.image = self.death_images[self.frame_counter]
                 self.frame_counter += 1
 
     def animate_pain(self):
@@ -106,7 +105,10 @@ class NPC(AnimatedSprite):
         ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
         ray_angle = self.theta
-        
+
+        if ray_angle == 0:
+            return True
+
         sin_a = math.sin(ray_angle)
         cos_a = math.cos(ray_angle)
 

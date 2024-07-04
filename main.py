@@ -24,6 +24,7 @@ class PixelGibs:
         pygame.mouse.set_visible(False)
         self.object_renderer = ObjectRenderer(self)
         self.object_handler = ObjectHandler(self)
+        self.map.add_npcs()
         self.raycasting = RayCasting(self)
         self.weapon = Weapon(self)
         self.sound = Sound(self)
